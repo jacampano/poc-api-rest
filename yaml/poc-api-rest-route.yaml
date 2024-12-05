@@ -1,0 +1,18 @@
+kind: Route
+apiVersion: route.openshift.io/v1
+metadata:
+  name: poc-api-rest-route
+  namespace: testdevsecops
+  labels:
+    app: poc-api-rest
+spec:
+  host: poc-api-rest.apps.paas-des-cica.junta-andalucia.es
+  to:
+    kind: Service
+    name: poc-api-rest-svc
+    weight: 100
+  port:
+    targetPort: 3000
+  tls:
+    termination: edge #???
+  wildcardPolicy: None

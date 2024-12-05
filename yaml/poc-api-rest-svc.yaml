@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: poc-api-rest
+  name: poc-api-rest-svc
+  namespace: testdevsecops
+spec:
+  ports:
+  - port: 443
+    protocol: TCP
+    targetPort: 3000
+  selector:
+    app: poc-api-rest
+  sessionAffinity: None
+  type: ClusterIP

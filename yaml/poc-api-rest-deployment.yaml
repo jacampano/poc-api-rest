@@ -1,0 +1,66 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: poc-api-rest-deployment
+  namespace: testdevsecops
+  labels:
+    app: poc-api-rest
+spec:
+  replicas: 1 
+  selector:
+    matchLabels:
+      app: poc-api-rest
+  template:
+    metadata:
+    creationTimestamp: null
+      labels:
+        app: poc-api-rest
+    spec:
+    restartPolicy: Always
+      serviceAccountName: poc-api-rest-sa
+      imagePullSecrets:
+        - name: poc-api-rest-sa-docker
+        - name: quay-secret-token
+        - name: tekton-pull-secret
+      schedulerName: default-scheduler
+      terminationGracePeriodSeconds: 30
+      securityContext: {}
+      containers:
+        - resources:
+            limits:
+              cpu: '1'
+              memory: 1Gi
+            requests:
+              cpu: 200m
+              memory: 1Gi
+          terminationMessagePath: /dev/termination-log
+          name: poc-api-rest-container
+          ports:
+            - containerPort: 3000
+              protocol: TCP
+          imagePullPolicy: IfNotPresent
+          volumeMounts:
+            - name: app-volume
+              mountPath: /app  # Montar el directorio de la app en el contenedor
+          terminationMessagePolicy: File
+          envFrom:
+            - configMapRef:
+                name: poc-api-rest-configmap
+          name: poc-api-rest-container
+          image: quay.apps.paas-ges-cica.junta-andalucia.es/ada/custom-docker-images:node-20.9.0
+          command: ["npm", "start"]  # Comando para arrancar la aplicación
+      serviceAccount: poc-api-rest-sa
+      volumes:
+        - name: app-volume
+          hostPath:
+            path: /path/to/your/app  # Ruta al directorio donde está tu código en el nodo del clúster
+            type: Directory
+      dnsPolicy: ClusterFirst
+  serviceName: poc-api-rest-svc
+  podManagementPolicy: Parallel
+  updateStrategy:
+    type: RollingUpdate
+  revisionHistoryLimit: 10
+  persistentVolumeClaimRetentionPolicy:
+    whenDeleted: Retain
+    whenScaled: Retain
