@@ -1,0 +1,58 @@
+<application xmlns="http://wadl.dev.java.net/2009/02"
+             xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <resources base="http://localhost:3000/api/tasks">
+        
+        <!-- Lista todas las tareas -->
+        <resource path="/">
+            <method name="GET" id="listTasks">
+                <response>
+                    <representation mediaType="application/json"/>
+                </response>
+            </method>
+        </resource>
+        
+        <!-- Obtiene una tarea por su ID -->
+        <resource path="/{id}">
+            <param name="id" style="template" type="xsd:int" required="true"/>
+            <method name="GET" id="getTaskById">
+                <response>
+                    <representation mediaType="application/json"/>
+                </response>
+            </method>
+        </resource>
+        
+        <!-- Crea una nueva tarea -->
+        <resource path="/">
+            <method name="POST" id="createTask">
+                <request>
+                    <representation mediaType="application/json"/>
+                </request>
+                <response status="201">
+                    <representation mediaType="application/json"/>
+                </response>
+            </method>
+        </resource>
+        
+        <!-- Actualiza una tarea por su ID -->
+        <resource path="/{id}">
+            <param name="id" style="template" type="xsd:int" required="true"/>
+            <method name="PUT" id="updateTask">
+                <request>
+                    <representation mediaType="application/json"/>
+                </request>
+                <response status="201">
+                    <representation mediaType="application/json"/>
+                </response>
+            </method>
+        </resource>
+        
+        <!-- Elimina una tarea por su ID -->
+        <resource path="/{id}">
+            <param name="id" style="template" type="xsd:int" required="true"/>
+            <method name="DELETE" id="deleteTask">
+                <response status="204"/>
+            </method>
+        </resource>
+
+    </resources>
+</application>

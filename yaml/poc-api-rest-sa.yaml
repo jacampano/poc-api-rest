@@ -1,7 +1,0 @@
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  name: poc-api-rest-sa
-  namespace: testdevsecops
-  labels:
-    app: poc-api-rest

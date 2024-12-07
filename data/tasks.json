@@ -18,5 +18,15 @@
     "id": 4,
     "title": "Nueva tarea",
     "completed": true
+  },
+  {
+    "id": 5,
+    "title": "Task1",
+    "completed": false
+  },
+  {
+    "id": 6,
+    "title": "Task1",
+    "completed": false
   }
 ]
